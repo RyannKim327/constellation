@@ -13,7 +13,7 @@ var API = middleware.Route{
 	Handler: api,
 }
 
-func api(ctx *gin.Context) (string, map[string]any) {
+func api(ctx *gin.Context) (string, utils.PARAMS) {
 	ctx.JSON(200, gin.H{
 		"message": "Hello",
 	})

@@ -18,7 +18,9 @@ const (
 	PERMISSION_COOKIE = "COOKIE"
 )
 
+type PARAMS (map[string]any)
+
 // HandlerSetup is the signature of a Constellation route handler. Returning an
 // empty body and a nil parameter map means the handler wrote the response itself
 // (for example with ctx.JSON); otherwise the result is rendered as an HTML page.
-type HandlerSetup func(ctx *gin.Context) (string, map[string]any)
+type HandlerSetup func(ctx *gin.Context) (string, PARAMS)

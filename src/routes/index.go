@@ -15,7 +15,7 @@ var Index = middleware.Route{
 	Path:       "/",
 	Handler:    layout,
 	Permission: utils.PERMISSION_ALL,
-	Title:      "Hello Contellation",
+	Title:      "Hello Constellation",
 }
 
 type User struct {
@@ -23,7 +23,7 @@ type User struct {
 	Name string `json:"name"`
 }
 
-func layout(ctx *gin.Context) (string, map[string]any) {
+func layout(ctx *gin.Context) (string, utils.PARAMS) {
 	name := ctx.DefaultQuery("name", "Test")
 
 	// TODO: This is how to fetch data
@@ -61,9 +61,9 @@ func layout(ctx *gin.Context) (string, map[string]any) {
 			</div>
 		</div>
 	`,
-			map[string]any{
+			utils.PARAMS{
 				"data": data,
-			})), map[string]any{
+			})), utils.PARAMS{
 			"name": name,
 		}
 }
