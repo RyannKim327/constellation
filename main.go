@@ -1,4 +1,4 @@
-package config
+package constellation
 
 import (
 	mw "constellation/config/middleware"

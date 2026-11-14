@@ -14,7 +14,7 @@ func RequestHandlerCookie() gin.HandlerFunc {
 			<!DOCTYPE html>
 			<html>
 				<head>
-					<title>Page Not Found</title>
+					<title>Restricted Area</title>
 					<style>
 						body {
 							display: flex;

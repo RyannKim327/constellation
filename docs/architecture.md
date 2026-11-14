@@ -12,7 +12,7 @@ split into two responsibilities:
 
 ```
 main()                        src/index.go
-  └── config.Constellation(routes)   config/main.go
+  └── config.Constellation(routes)   main.go
         ├── mw.CorsSetup()            config/middleware/server-controller.go
         │     ├── CORS middleware
         │     └── response header middleware
@@ -64,3 +64,16 @@ Gin copies a route's middleware chain at registration time. Middleware added wit
 Constellation registers CORS and the developer header before routes, so they
 apply everywhere; the request logger added in `StartServer` is only seen by
 routes registered after it. Keep this in mind if you add middleware.
+
+## Generated documentation
+
+Markdown files in `docs/` are the source of truth for the documentation pages.
+`tools/md2go` converts each file into a Go constant under `src/routes/` and
+writes a manifest of all documents. `src/routes/docs.go` turns that manifest into
+regular routes at `/docs/<slug>`. No Markdown is read from disk at request time.
+
+Regenerate the files after editing any document:
+
+```bash
+go generate ./src/routes
+```

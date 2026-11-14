@@ -44,22 +44,31 @@ Air builds `./src/index.go`, runs the binary, and rebuilds on changes to `.go`,
 ```
 .
 ├── .air.toml                 # Air live-reload configuration
+├── main.go                   # Constellation() bootstrap
 ├── go.mod
 ├── go.sum
 ├── config/
-│   ├── main.go               # Constellation() bootstrap
 │   ├── middleware/
 │   │   ├── access-controller.go   # Cookie-based access guard
 │   │   ├── scraper-detector.go    # Bot / scraper detection
 │   │   ├── route-controller.go    # Route type
 │   │   └── server-controller.go   # CORS, route registration, server start
 │   └── utils/
+│       ├── markdown.go       # Markdown -> HTML rendering
 │       ├── render.go         # HTML templating and page rendering
 │       └── statics.go        # HTTP method + permission constants, handler type
+├── docs/                     # Markdown documentation (source of truth)
+├── tools/md2go/              # Markdown -> Go documentation generator
 └── src/
     ├── index.go              # Entrypoint and route registry
     ├── backend/api.go        # Example JSON API route
-    ├── routes/index.go       # Example server-rendered page
+    ├── routes/
+    │   ├── index.go          # Main landing page
+    │   ├── about.go          # Project overview
+    │   ├── docs.go           # Documentation index and shared docs layout
+    │   ├── docs_*.go         # Generated from docs/*.md
+    │   ├── samples.go        # Sample index
+    │   └── sample_*.go       # Sample route files
     └── static/
         └── styles.css        # Stylesheet served at /static/styles.css
 ```
@@ -138,11 +147,18 @@ takes precedence, then the argument, then `8000`.
 
 ## Built-in routes
 
-| Method | Path   | Description                        |
-| ------ | ------ | --------------------------------- |
-| `GET`  | `/`    | Server-rendered example page.     |
-| `GET`  | `/api` | Example JSON API response.        |
-| `GET`  | `/static/*` | Static files from `src/static`. |
+| Method | Path              | Description                                         |
+| ------ | ----------------- | --------------------------------------------------- |
+| `GET`  | `/`               | Main landing page.                                  |
+| `GET`  | `/about`          | Project overview and repository layout.             |
+| `GET`  | `/docs`           | Documentation index generated from `docs/*.md`.     |
+| `GET`  | `/docs/<slug>`    | One rendered Markdown document per file in `docs/`. |
+| `GET`  | `/samples`        | Index of the sample routes.                         |
+| `GET`  | `/samples/json`   | Sample JSON endpoint.                               |
+| `GET`  | `/samples/form`   | Sample form page.                                   |
+| `POST` | `/samples/form/submit` | Sample form submission.                        |
+| `GET`  | `/api`            | Example JSON API response.                          |
+| `GET`  | `/static/*`       | Static files from `src/static`.                     |
 
 ## Documentation
 
@@ -151,11 +167,18 @@ takes precedence, then the argument, then `8000`.
 - [Middleware](docs/middleware.md)
 - [Rendering](docs/rendering.md)
 - [Configuration](docs/configuration.md)
+- [Samples](docs/samples.md)
+
+The documentation is also available at `/docs`. Markdown files in `docs/` are
+converted into Go files under `src/routes/` so the pages do not read from disk at
+request time. After editing a Markdown file, regenerate the Go files:
+
+```bash
+go generate ./src/routes
+```
 
 ## Known limitations
 
-- `src/routes/index.go` is a demo: it calls an external API and panics on error.
-  Replace it with real data fetching and error handling.
 - Bot detection in `BotProtection` is a simple `User-Agent` heuristic; harden it
   before relying on it in production.
 - Middleware is attached at route-registration time in Gin. CORS and the

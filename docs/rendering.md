@@ -25,12 +25,13 @@ html := utils.HTParser(`<ul>{items}</ul>`, map[string]any{"items": list})
 ## `utils.Render` — full document
 
 ```go
-func Render(ctx *gin.Context, body string, params map[string]any)
+func Render(ctx *gin.Context, title string, body string, params map[string]any)
 ```
 
 Wraps `body` in a complete HTML document (charset, viewport, title, and the
 `/static/styles.css` stylesheet), escapes the parameters via Go's
-`html.EscapeString`, and writes the result with `text/html`.
+`html.EscapeString`, and writes the result with `text/html`. An empty title
+falls back to `Constellation`.
 
 Handler return values flow here automatically:
 

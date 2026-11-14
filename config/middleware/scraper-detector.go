@@ -19,10 +19,37 @@ func BotProtection() gin.HandlerFunc {
 			"httpx",
 		}
 
-		if strings.Contains(strings.Join(blocked, ","), ua) {
-			c.AbortWithStatusJSON(403, gin.H{
-				"error": "Access denied",
-			})
+		if !strings.ContainsAny(strings.Join(blocked, ","), ua) {
+			const html = `
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<title>Restricted Area</title>
+					<style>
+						body {
+							display: flex;
+							flex-direction: row;
+							height: 100dvh;
+							width: 100dvw;
+							align-items: center;
+							justify-content: center;
+							background-color: black;
+							color: white;
+						}
+						p{
+							font-size: 0.75rem;
+							margin: 0;
+						}	
+					</style>
+				</head>
+				<body>
+					<p><b style="font-size: 1.25rem;">403|</b> Restricted area</p>
+				</body>
+			</html>
+		`
+			c.Data(403, "text/html; charset=utf-8", []byte(html))
+
+			c.Abort()
 			return
 		}
 		c.Next()
