@@ -1,22 +1,23 @@
 package main
 
 import (
-	c "constellation"
-	mw "constellation/config/middleware"
-	"constellation/src/backend"
-	routes "constellation/src/routes"
+	routes "github.com/RyannKim327/constellation/src/routes"
+
+	c "github.com/RyannKim327/constellation"
+	mw "github.com/RyannKim327/constellation/config/middleware"
+	"github.com/RyannKim327/constellation/src/backend"
 )
 
 // TODO: Collect all the Routes here
 // NOTE: I suggest to use routes (folder) to make it organize
 var _routes = append([]mw.Route{
 	backend.API,
+	backend.SampleJSON,
 
 	routes.Index,
 	routes.About,
 	routes.Docs,
 	routes.Samples,
-	routes.SampleJSON,
 	routes.SampleForm,
 	routes.SampleFormSubmit,
 }, routes.DocsPages...)

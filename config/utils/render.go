@@ -51,7 +51,7 @@ func Render(ctx *gin.Context, title string, body string, params map[string]any) 
     		<meta charset="UTF-8">
     		<meta name="viewport" content="width=device-width, initial-scale=1">
     		<title>%s</title>
-    		<script src="https://cdn.tailwindcss.com"></script>
+    		<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
         <link rel="stylesheet" href="/static/styles.css" />
   		</head>
   		<body>

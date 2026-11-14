@@ -1,7 +1,7 @@
 package constellation
 
 import (
-	mw "constellation/config/middleware"
+	mw "github.com/RyannKim327/constellation/config/middleware"
 )
 
 // Constellation bootstraps the application: it sets up CORS, registers every

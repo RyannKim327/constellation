@@ -1,6 +1,6 @@
 package middleware
 
-import "constellation/config/utils"
+import "github.com/RyannKim327/constellation/config/utils"
 
 // TODO: Just create a structure inside and call it outside
 

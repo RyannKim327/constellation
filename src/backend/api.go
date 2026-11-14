@@ -1,14 +1,14 @@
 package backend
 
 import (
-	"constellation/config/middleware"
-	"constellation/config/utils"
+	"github.com/RyannKim327/constellation/config/middleware"
+	"github.com/RyannKim327/constellation/config/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
 var API = middleware.Route{
-	Path:    "/api",
+	Path:    "api",
 	Method:  utils.METHOD_GET,
 	Handler: api,
 }

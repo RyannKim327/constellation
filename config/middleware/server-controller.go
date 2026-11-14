@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"constellation/config/utils"
+	"github.com/RyannKim327/constellation/config/utils"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -69,6 +69,10 @@ func Register(routes Route) {
 
 	// TODO: To make sure that the endpoint is in lowercase
 	routes.Path = strings.ToLower(routes.Path)
+
+	if !strings.HasPrefix(routes.Path, "/") {
+		routes.Path = fmt.Sprintf("/%s", routes.Path)
+	}
 
 	// TODO: To automatically add "/submit" in every required post requests
 	if method == strings.ToUpper(utils.METHOD_POST) && strings.ToUpper(routes.Permission) != utils.PERMISSION_ALL && !strings.HasSuffix(routes.Path, "/submit") {
