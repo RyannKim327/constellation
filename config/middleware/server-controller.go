@@ -2,6 +2,8 @@ package middleware
 
 import (
 	"fmt"
+	"io/fs"
+	"net/http"
 	"os"
 	"strconv"
 	"strings"
@@ -19,7 +21,7 @@ var app = gin.Default()
 // local development defaults, plus a response-header middleware. Call it before
 // registering routes so the middleware applies to them.
 func CorsSetup() {
-	origins := []string{"http://localhost:3000", "http://localhost:5173"}
+	origins := []string{"https://constellation-red.vercel.app", "http://localhost:3000", "http://localhost:5173"}
 	if v := os.Getenv("ALLOWED_ORIGINS"); v != "" {
 		origins = strings.Split(v, ",")
 	}
@@ -160,13 +162,17 @@ func getPort(port []int) int {
 	return 8000
 }
 
-// StartServer serves static files from src/static, installs request logging and
+// StartServer serves the embedded static assets, installs request logging and
 // a custom 404 handler, and starts the HTTP server. The port is taken from PORT,
 // then the first variadic argument, then 8000.
-func StartServer(port ...int) {
+func StartServer(static fs.FS, port ...int) {
 	p := getPort(port)
 
-	app.Static("/static", "src/static")
+	staticFS, err := fs.Sub(static, "static")
+	if err != nil {
+		panic(err)
+	}
+	app.StaticFS("/static", http.FS(staticFS))
 
 	app.Use(func(ctx *gin.Context) {
 		// TODO: To add manual LOGS to monitor by data or file

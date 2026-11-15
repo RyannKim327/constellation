@@ -24,5 +24,5 @@ var _routes = append([]mw.Route{
 
 func Main() {
 	// TODO: This code will going to initiate everything
-	c.Constellation(_routes)
+	c.Constellation(StaticFS, _routes)
 }
