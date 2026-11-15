@@ -1,7 +1,7 @@
 # Routing
 
 Routes are declared as `middleware.Route` values and collected in
-`src/index.go`.
+`src/main.go`.
 
 ## The `Route` type
 
@@ -42,7 +42,7 @@ var About = middleware.Route{
 }
 ```
 
-Register it in `src/index.go`:
+Register it in `src/main.go`:
 
 ```go
 var _routes = []mw.Route{

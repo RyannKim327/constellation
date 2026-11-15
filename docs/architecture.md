@@ -11,7 +11,7 @@ split into two responsibilities:
 ## Boot sequence
 
 ```
-main()                        src/index.go
+main()                        src/main.go
   └── config.Constellation(routes)   main.go
         ├── mw.CorsSetup()            config/middleware/server-controller.go
         │     ├── CORS middleware
@@ -21,7 +21,7 @@ main()                        src/index.go
         └── mw.StartServer()          # static files, logging, 404, Run()
 ```
 
-1. **Route collection.** `src/index.go` builds a `[]mw.Route` slice and passes it
+1. **Route collection.** `src/main.go` builds a `[]mw.Route` slice and passes it
    to `config.Constellation`.
 2. **CORS setup.** `CorsSetup` registers CORS (origins from `ALLOWED_ORIGINS`) and
    a small response-header middleware.

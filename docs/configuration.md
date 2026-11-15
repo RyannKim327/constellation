@@ -13,11 +13,11 @@ work out of the box.
 ### Examples
 
 ```bash
-PORT=3000 go run ./src/index.go
+PORT=3000 go run ./src/main.go
 ```
 
 ```bash
-ALLOWED_ORIGINS="http://localhost:5173,https://example.com" go run ./src/index.go
+ALLOWED_ORIGINS="http://localhost:5173,https://example.com" go run ./src/main.go
 ```
 
 ## Port resolution
@@ -42,7 +42,7 @@ is fixed in `StartServer`.
 
 `.air.toml` configures [Air](https://github.com/air-verse/air):
 
-- Builds `./src/index.go` into `./tmp/main`.
+- Builds `./src/main.go` into `./tmp/main`.
 - Watches `.go`, `.css`, `.js`, and `.html` files.
 - Excludes `assets`, `tmp`, `vendor`, `testdata`, and `_test.go` files.
 

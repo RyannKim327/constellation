@@ -31,7 +31,7 @@ var Docs = middleware.Route{
 }
 
 // DocsPages is built from the generated documentation manifest. Register it
-// alongside the other frontend routes in src/index.go.
+// alongside the other frontend routes in src/main.go.
 var DocsPages = buildDocsPages()
 
 func buildDocsPages() []middleware.Route {

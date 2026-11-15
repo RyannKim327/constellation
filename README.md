@@ -25,7 +25,7 @@ default middleware.
 git clone <repository-url>
 cd nextgo
 go mod download
-go run ./src/index.go
+go run ./src/main.go
 ```
 
 Then open <http://localhost:8000>.
@@ -36,7 +36,7 @@ Then open <http://localhost:8000>.
 air
 ```
 
-Air builds `./src/index.go`, runs the binary, and rebuilds on changes to `.go`,
+Air builds `./src/main.go`, runs the binary, and rebuilds on changes to `.go`,
 `.css`, `.js`, and `.html` files. Build artifacts go to `tmp/`.
 
 ## Project structure
@@ -60,7 +60,7 @@ Air builds `./src/index.go`, runs the binary, and rebuilds on changes to `.go`,
 ├── docs/                     # Markdown documentation (source of truth)
 ├── tools/md2go/              # Markdown -> Go documentation generator
 └── src/
-    ├── index.go              # Entrypoint and route registry
+    ├── main.go              # Entrypoint and route registry
     ├── backend/api.go        # Example JSON API route
     ├── routes/
     │   ├── index.go          # Main landing page
@@ -78,7 +78,7 @@ Air builds `./src/index.go`, runs the binary, and rebuilds on changes to `.go`,
 The entrypoint registers every route and hands them to the framework:
 
 ```go
-// src/index.go
+// src/main.go
 var _routes = []mw.Route{
     backend.API,
     routes.Index,
@@ -105,7 +105,7 @@ var Hello = middleware.Route{
 }
 ```
 
-Then add it to `_routes` in `src/index.go`.
+Then add it to `_routes` in `src/main.go`.
 
 ### Handler contract
 

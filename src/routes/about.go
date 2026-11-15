@@ -67,7 +67,7 @@ func about(ctx *gin.Context) (string, utils.PARAMS) {
 					<div class="rounded-[0.9rem] border border-orange-400/30 bg-orange-400/[0.07] px-[1.4rem] py-[1.2rem]">
 						<p class="m-0 mb-[0.35rem] text-[0.8rem] font-bold uppercase tracking-[0.08em] text-orange-400">Try it locally</p>
 						<p class="m-0 text-[0.9rem] text-slate-400">
-							Run <code class="rounded border border-white/10 bg-white/[0.06] px-[0.35rem] py-[0.1rem] text-[0.85em] text-orange-300">go run ./src/index.go</code> and open
+							Run <code class="rounded border border-white/10 bg-white/[0.06] px-[0.35rem] py-[0.1rem] text-[0.85em] text-orange-300">go run ./src/main.go</code> and open
 							<a class="font-semibold text-orange-400 hover:underline" href="http://localhost:8000">localhost:8000</a>.
 							For live reload, run <code class="rounded border border-white/10 bg-white/[0.06] px-[0.35rem] py-[0.1rem] text-[0.85em] text-orange-300">air</code>.
 						</p>

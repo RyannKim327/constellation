@@ -1,9 +1,9 @@
-package main
+package src
 
 import (
 	routes "github.com/RyannKim327/constellation/src/routes"
 
-	c "github.com/RyannKim327/constellation"
+	c "github.com/RyannKim327/constellation/config"
 	mw "github.com/RyannKim327/constellation/config/middleware"
 	"github.com/RyannKim327/constellation/src/backend"
 )
@@ -22,7 +22,7 @@ var _routes = append([]mw.Route{
 	routes.SampleFormSubmit,
 }, routes.DocsPages...)
 
-func main() {
+func Main() {
 	// TODO: This code will going to initiate everything
 	c.Constellation(_routes)
 }

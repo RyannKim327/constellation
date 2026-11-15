@@ -48,5 +48,5 @@ const docsSamplesMarkdown = "" +
 	"}\n" +
 	"```\n" +
 	"\n" +
-	"All samples are registered in `src/index.go` together with the frontend routes.\n" +
+	"All samples are registered in `src/main.go` together with the frontend routes.\n" +
 	""

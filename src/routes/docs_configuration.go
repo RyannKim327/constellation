@@ -18,11 +18,11 @@ const docsConfigurationMarkdown = "" +
 	"### Examples\n" +
 	"\n" +
 	"```bash\n" +
-	"PORT=3000 go run ./src/index.go\n" +
+	"PORT=3000 go run ./src/main.go\n" +
 	"```\n" +
 	"\n" +
 	"```bash\n" +
-	"ALLOWED_ORIGINS=\"http://localhost:5173,https://example.com\" go run ./src/index.go\n" +
+	"ALLOWED_ORIGINS=\"http://localhost:5173,https://example.com\" go run ./src/main.go\n" +
 	"```\n" +
 	"\n" +
 	"## Port resolution\n" +
@@ -47,7 +47,7 @@ const docsConfigurationMarkdown = "" +
 	"\n" +
 	"`.air.toml` configures [Air](https://github.com/air-verse/air):\n" +
 	"\n" +
-	"- Builds `./src/index.go` into `./tmp/main`.\n" +
+	"- Builds `./src/main.go` into `./tmp/main`.\n" +
 	"- Watches `.go`, `.css`, `.js`, and `.html` files.\n" +
 	"- Excludes `assets`, `tmp`, `vendor`, `testdata`, and `_test.go` files.\n" +
 	"\n" +

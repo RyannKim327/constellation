@@ -6,7 +6,7 @@ const docsRoutingMarkdown = "" +
 	"# Routing\n" +
 	"\n" +
 	"Routes are declared as `middleware.Route` values and collected in\n" +
-	"`src/index.go`.\n" +
+	"`src/main.go`.\n" +
 	"\n" +
 	"## The `Route` type\n" +
 	"\n" +
@@ -47,7 +47,7 @@ const docsRoutingMarkdown = "" +
 	"}\n" +
 	"```\n" +
 	"\n" +
-	"Register it in `src/index.go`:\n" +
+	"Register it in `src/main.go`:\n" +
 	"\n" +
 	"```go\n" +
 	"var _routes = []mw.Route{\n" +

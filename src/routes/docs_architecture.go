@@ -16,7 +16,7 @@ const docsArchitectureMarkdown = "" +
 	"## Boot sequence\n" +
 	"\n" +
 	"```\n" +
-	"main()                        src/index.go\n" +
+	"main()                        src/main.go\n" +
 	"  └── config.Constellation(routes)   main.go\n" +
 	"        ├── mw.CorsSetup()            config/middleware/server-controller.go\n" +
 	"        │     ├── CORS middleware\n" +
@@ -26,7 +26,7 @@ const docsArchitectureMarkdown = "" +
 	"        └── mw.StartServer()          # static files, logging, 404, Run()\n" +
 	"```\n" +
 	"\n" +
-	"1. **Route collection.** `src/index.go` builds a `[]mw.Route` slice and passes it\n" +
+	"1. **Route collection.** `src/main.go` builds a `[]mw.Route` slice and passes it\n" +
 	"   to `config.Constellation`.\n" +
 	"2. **CORS setup.** `CorsSetup` registers CORS (origins from `ALLOWED_ORIGINS`) and\n" +
 	"   a small response-header middleware.\n" +

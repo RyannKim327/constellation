@@ -43,4 +43,4 @@ var API = middleware.Route{
 }
 ```
 
-All samples are registered in `src/index.go` together with the frontend routes.
+All samples are registered in `src/main.go` together with the frontend routes.

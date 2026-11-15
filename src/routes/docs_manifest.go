@@ -36,7 +36,7 @@ var generatedDocs = []markdownDoc{
 	{
 		Slug:     "routing",
 		Title:    "Routing",
-		Summary:  "Routes are declared as middleware.Route values and collected in src/index.go.",
+		Summary:  "Routes are declared as middleware.Route values and collected in src/main.go.",
 		Markdown: docsRoutingMarkdown,
 	},
 	{
