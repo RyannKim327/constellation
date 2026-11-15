@@ -166,6 +166,7 @@ takes precedence, then the argument, then `8000`.
 - [Routing](docs/routing.md)
 - [Middleware](docs/middleware.md)
 - [Rendering](docs/rendering.md)
+- [Components](docs/components.md)
 - [Configuration](docs/configuration.md)
 - [Samples](docs/samples.md)
 

@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/RyannKim327/constellation/config/middleware"
 	"github.com/RyannKim327/constellation/config/utils"
+	"github.com/RyannKim327/constellation/src/components"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,17 +18,12 @@ var Samples = middleware.Route{
 	Title:      "Samples · Constellation",
 }
 
-func samples(_ *gin.Context) (string, utils.PARAMS) {
-	return `
+func samples(ctx *gin.Context) (string, utils.PARAMS) {
+	currentPage := ctx.Request.URL.Path
+
+	return utils.HTParser(`
 		<div class="mx-auto w-[calc(100%_-_2rem)] max-w-[1120px] pt-8 pb-20 md:w-[calc(100%_-_3rem)]">
-			<nav class="flex flex-col items-start justify-between gap-4 pt-4 pb-8 text-sm text-slate-400 md:flex-row md:items-center [&_a:hover]:text-slate-50">
-				<a href="/">← Back to main</a>
-				<div class="flex flex-wrap gap-5">
-					<a href="/about">About</a>
-					<a href="/docs">Documentation</a>
-					<a href="/api">API</a>
-				</div>
-			</nav>
+			{navigation}
 
 			<header class="pt-12 pb-10">
 				<span class="block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-orange-400">Sample files</span>
@@ -76,5 +72,7 @@ func samples(_ *gin.Context) (string, utils.PARAMS) {
 				<span>Examples live in src/routes/sample_*.go</span>
 			</footer>
 		</div>
-	`, nil
+	`, utils.PARAMS{
+		"navigation": components.Header(currentPage),
+	}), nil
 }

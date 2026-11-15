@@ -19,8 +19,25 @@ html := utils.HTParser(`<ul>{items}</ul>`, map[string]any{"items": list})
 ```
 
 > **Security:** `HTParser` does not escape values. Never pass untrusted user
-> input through it. Use the handler's parameter return value (rendered by
-> `Render`) for anything user-controlled.
+> input through it. Use `utils.Parser` for anything user-controlled.
+
+## `utils.Parser` — escaped substitution
+
+```go
+func Parser(body string, params map[string]any) string
+```
+
+Replaces every `{key}` with `fmt.Sprint(value)` **after** escaping it with
+`html.EscapeString`. Use it for text and any value that came from a user:
+
+```go
+body := utils.Parser(`<p>Hello {name}</p>`, utils.PARAMS{
+    "name": ctx.Query("name"),
+})
+```
+
+> **Note:** As the comments in `config/utils/render.go` state, use `HTParser` for
+> HTML and `Parser` for inputs. `Parser` is what prevents XSS.
 
 ## `utils.Render` — full document
 
@@ -29,9 +46,9 @@ func Render(ctx *gin.Context, title string, body string, params map[string]any)
 ```
 
 Wraps `body` in a complete HTML document (charset, viewport, title, and the
-`/static/styles.css` stylesheet), escapes the parameters via Go's
-`html.EscapeString`, and writes the result with `text/html`. An empty title
-falls back to `Constellation`.
+`/static/styles.css` stylesheet), substitutes the parameters through
+`utils.Parser` (so they are HTML-escaped), and writes the result with
+`text/html`. An empty title falls back to `Constellation`.
 
 Handler return values flow here automatically:
 
@@ -48,7 +65,8 @@ Because `{name}` is supplied as a parameter, it is HTML-escaped.
 | Helper            | Escapes? | Use for                                  |
 | ----------------- | -------- | ---------------------------------------- |
 | `utils.HTParser`  | no       | Trusted HTML fragments you built in code |
-| `utils.Render`    | yes      | User-supplied data in the parameter map  |
+| `utils.Parser`    | yes      | Text and user-supplied input             |
+| `utils.Render`    | yes      | Full document; runs params through `Parser` |
 
 The example page in `src/routes/index.go` uses both: it builds list items and
 injects them raw with `HTParser`, then returns `name` as a rendered parameter so

@@ -10,6 +10,12 @@ var generatedDocs = []markdownDoc{
 		Markdown: docsArchitectureMarkdown,
 	},
 	{
+		Slug:     "components",
+		Title:    "Components",
+		Summary:  "Reusable chunks of HTML live in src/components/ as plain Go functions and variables that return a string. There is no component runtime: a component is just code that builds mar...",
+		Markdown: docsComponentsMarkdown,
+	},
+	{
 		Slug:     "configuration",
 		Title:    "Configuration",
 		Summary:  "Constellation is configured through environment variables, with defaults that work out of the box.",

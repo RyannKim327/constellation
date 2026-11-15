@@ -24,8 +24,25 @@ const docsRenderingMarkdown = "" +
 	"```\n" +
 	"\n" +
 	"> **Security:** `HTParser` does not escape values. Never pass untrusted user\n" +
-	"> input through it. Use the handler's parameter return value (rendered by\n" +
-	"> `Render`) for anything user-controlled.\n" +
+	"> input through it. Use `utils.Parser` for anything user-controlled.\n" +
+	"\n" +
+	"## `utils.Parser` — escaped substitution\n" +
+	"\n" +
+	"```go\n" +
+	"func Parser(body string, params map[string]any) string\n" +
+	"```\n" +
+	"\n" +
+	"Replaces every `{key}` with `fmt.Sprint(value)` **after** escaping it with\n" +
+	"`html.EscapeString`. Use it for text and any value that came from a user:\n" +
+	"\n" +
+	"```go\n" +
+	"body := utils.Parser(`<p>Hello {name}</p>`, utils.PARAMS{\n" +
+	"    \"name\": ctx.Query(\"name\"),\n" +
+	"})\n" +
+	"```\n" +
+	"\n" +
+	"> **Note:** As the comments in `config/utils/render.go` state, use `HTParser` for\n" +
+	"> HTML and `Parser` for inputs. `Parser` is what prevents XSS.\n" +
 	"\n" +
 	"## `utils.Render` — full document\n" +
 	"\n" +
@@ -34,9 +51,9 @@ const docsRenderingMarkdown = "" +
 	"```\n" +
 	"\n" +
 	"Wraps `body` in a complete HTML document (charset, viewport, title, and the\n" +
-	"`/static/styles.css` stylesheet), escapes the parameters via Go's\n" +
-	"`html.EscapeString`, and writes the result with `text/html`. An empty title\n" +
-	"falls back to `Constellation`.\n" +
+	"`/static/styles.css` stylesheet), substitutes the parameters through\n" +
+	"`utils.Parser` (so they are HTML-escaped), and writes the result with\n" +
+	"`text/html`. An empty title falls back to `Constellation`.\n" +
 	"\n" +
 	"Handler return values flow here automatically:\n" +
 	"\n" +
@@ -53,7 +70,8 @@ const docsRenderingMarkdown = "" +
 	"| Helper            | Escapes? | Use for                                  |\n" +
 	"| ----------------- | -------- | ---------------------------------------- |\n" +
 	"| `utils.HTParser`  | no       | Trusted HTML fragments you built in code |\n" +
-	"| `utils.Render`    | yes      | User-supplied data in the parameter map  |\n" +
+	"| `utils.Parser`    | yes      | Text and user-supplied input             |\n" +
+	"| `utils.Render`    | yes      | Full document; runs params through `Parser` |\n" +
 	"\n" +
 	"The example page in `src/routes/index.go` uses both: it builds list items and\n" +
 	"injects them raw with `HTParser`, then returns `name` as a rendered parameter so\n" +

@@ -12,6 +12,10 @@ import (
 // matching value in params. Values are substituted verbatim and are NOT
 // HTML-escaped, so only pass trusted markup. Use Render for user-supplied data.
 func HTParser(body string, params map[string]any) string {
+	/*
+	 * NOTE: Use this function for parsing HTML.
+	 * Don't use this function for inputs to prevent XSS
+	 */
 	if len(params) == 0 {
 		return body
 	}
@@ -24,7 +28,13 @@ func HTParser(body string, params map[string]any) string {
 	return strings.NewReplacer(pairs...).Replace(body)
 }
 
-func template(body string, params map[string]any) string {
+func Parser(body string, params map[string]any) string {
+	/*
+	 * NOTE: Use this function for parsing texts and escaping the HTML strings.
+	 * This function is dedicated to user input-based parsing.
+	 * Use this function for inputs to prevent XSS
+	 */
+
 	if len(params) == 0 {
 		return body
 	}
@@ -47,6 +57,9 @@ func Render(ctx *gin.Context, title string, body string, params map[string]any) 
 
 	_html := fmt.Sprintf(`<!DOCTYPE html>
 		<html lang="en">
+		  <!-- Constellation -->
+		  <!-- A framework developed with Go language -->
+  		<!-- Developed by Ryann Kim Sesgundo -->
   		<head>
     		<meta charset="UTF-8">
     		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,6 +71,6 @@ func Render(ctx *gin.Context, title string, body string, params map[string]any) 
     		<main class="w-dvw h-dvh">%s</main>
   		</body>
 		</html>
-		`, title, template(body, params))
+		`, title, Parser(body, params))
 	ctx.Data(200, "text/html; charset=utf-8", []byte(_html))
 }
