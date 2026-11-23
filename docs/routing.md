@@ -1,95 +1,86 @@
 # Routing
 
-Routes are declared as `middleware.Route` values and collected in
-`src/main.go`.
+Routes are declared as `constellation.Endpoint` values and registered with
+`AddEndpoint` before the server starts.
 
-## The `Route` type
+## Endpoint fields
 
 ```go
-type Route struct {
-    Method     string
+type Endpoint struct {
     Path       string
-    Permission string
-    Handler    utils.HandlerSetup
+    Method     MethodType
+    Handler    HandlerSetup
+    Permission PermissionType
+    Title      string
+}
+
+type HandlerSetup struct {
+    Web HandlerWeb // func(r *Request) string
+    Api HandlerApi // func(r *Request, w Response)
 }
 ```
 
-| Field        | Required | Description                                         |
-| ------------ | -------- | --------------------------------------------------- |
-| `Method`     | no       | HTTP method. Defaults to `GET`. Case-insensitive.   |
-| `Path`       | yes      | URL path. Lowercased automatically.                 |
-| `Permission` | no       | Access level. Defaults by method (see below).       |
-| `Handler`    | yes      | The `func(ctx *gin.Context) (string, map[string]any)`. |
+| Field        | Required | Description                                      |
+| ------------ | -------- | ------------------------------------------------ |
+| `Path`       | no       | URL path. Defaults to `/`.                       |
+| `Method`     | no       | HTTP method. Defaults to `GET`.                  |
+| `Handler`    | yes      | Web and/or Api callbacks for the endpoint.       |
+| `Permission` | no       | Access label. Defaults to empty when omitted.    |
+| `Title`      | no       | Page title. Falls back to `Constellation`.       |
 
-## Declaring a route
+## Example
 
 ```go
-package routes
-
-import (
-    "constellation/config/middleware"
-    "constellation/config/utils"
-
-    "github.com/gin-gonic/gin"
-)
-
-var About = middleware.Route{
-    Method: utils.METHOD_GET,
-    Path:   "/about",
-    Handler: func(ctx *gin.Context) (string, map[string]any) {
-        return `<h1>About {app}</h1>`, map[string]any{"app": "Constellation"}
+constellation.AddEndpoint(constellation.Endpoint{
+    Path:       "/hello",
+    Method:     constellation.GET,
+    Permission: constellation.Unauthenticated,
+    Title:      "Hello",
+    Handler: constellation.HandlerSetup{
+        Web: func(r *constellation.Request) string {
+            return "<h1>Hello</h1>"
+        },
     },
-}
+})
 ```
 
-Register it in `src/main.go`:
+The server registers each endpoint as an exact `METHOD path` pattern, for
+example `GET /hello`. `POST`, `PUT`, `PATCH`, and `DELETE` are also available.
+See the [API guide](api.md) for a full walkthrough of JSON endpoints.
+
+## Web and Api handlers
+
+`HandlerSetup` combines both handler styles. Set `Web` to return an HTML body,
+which is wrapped by `middleware.WebParser`, or set `Api` to write the response
+yourself. If both are set, `Api` takes precedence.
 
 ```go
-var _routes = []mw.Route{
-    backend.API,
-    routes.Index,
-    routes.About,
-}
-```
-
-## Registration behavior
-
-`mw.Register` normalizes each route before attaching it to the engine:
-
-- **Method** — defaults to `GET` when empty, then uppercased.
-- **Path** — lowercased.
-- **POST suffix** — a `POST` route whose permission is *not* `ALL` and whose path
-  does not already end in `/submit` gets `/submit` appended. This gives
-  form-submission endpoints a consistent shape.
-- **Permission default** — `POST` defaults to `COOKIE`; every other method
-  defaults to `ALL`.
-
-## Available constants
-
-Defined in `config/utils/statics.go`:
-
-```go
-// Methods
-METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_PATCH, METHOD_DELETE
-
-// Permissions
-PERMISSION_ALL     // no auth
-PERMISSION_COOKIE  // requires a valid `temporary` cookie
-PERMISSION_ADMIN   // reserved; not enforced yet
-```
-
-## Example: JSON endpoint
-
-A handler can write the response itself and return `(nil, nil)` to skip HTML
-rendering:
-
-```go
-var API = middleware.Route{
-    Method:  utils.METHOD_GET,
-    Path:    "/api",
-    Handler: func(ctx *gin.Context) (string, map[string]any) {
-        ctx.JSON(200, gin.H{"message": "Hello"})
-        return "", nil
+constellation.AddEndpoint(constellation.Endpoint{
+    Path:   "/api/hello",
+    Method: constellation.GET,
+    Handler: constellation.HandlerSetup{
+        Api: func(r *constellation.Request, w constellation.Response) {
+            w.Header().Set("Content-Type", "application/json")
+            w.Write([]byte(`{"message":"Hello"}`))
+        },
     },
+})
+```
+
+## Defaults and permissions
+
+`AddEndpoint` fills in `/` for an empty path and `GET` for an empty method.
+Permission values (`Unauthenticated`, `Authenticated`, and `Authorized`) are
+metadata for now; they are not enforced by the server yet.
+
+## Reading request data
+
+A handler receives a `*constellation.Request`, which is an alias for
+`*http.Request`. Query values and form data use the usual standard library API:
+
+```go
+name := r.URL.Query().Get("name")
+if name == "" {
+    name = "world"
 }
 ```
