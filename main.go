@@ -3,10 +3,10 @@ package main
 import (
 	"embed"
 
-	sample_api "constellation/sample/api"
-	sample_web "constellation/sample/web"
-	constellation "constellation/src"
-	"constellation/src/docs"
+	constellation "constellation/lib"
+	"constellation/lib/docs"
+	api "constellation/src/api"
+	web "constellation/src/web"
 )
 
 // StaticFS contains the assets under static, embedded at build time.
@@ -22,8 +22,8 @@ var DocsFS embed.FS
 func main() {
 	docs.Register(DocsFS)
 
-	constellation.AddEndpoint(sample_web.Index)
-	constellation.AddEndpoint(sample_api.SampleApi)
+	constellation.AddEndpoint(web.Index)
+	constellation.AddEndpoint(api.SampleApi)
 
 	css, err := StaticFS.ReadFile("static/styles.css")
 	if err != nil {

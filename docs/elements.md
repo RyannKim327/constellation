@@ -1,6 +1,6 @@
 # Elements
 
-The `src/elements` package provides one function per HTML tag. Every function
+The `lib/elements` package provides one function per HTML tag. Every function
 takes a `WebComponent` and returns an HTML string.
 
 ## WebComponent

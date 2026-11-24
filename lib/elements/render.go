@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	constellation "constellation/src"
+	constellation "constellation/lib"
 )
 
 var voidElements = map[string]bool{

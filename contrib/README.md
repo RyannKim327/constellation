@@ -11,18 +11,22 @@ You need Go 1.27 or newer. The project uses only the standard library.
 go run .
 ```
 
-The site is served at `http://localhost:8000`.
+The site is served at `http://localhost:8000`. For hot reload during
+development, run `go run ./lib/dev` instead.
 
 ## Layout
 
 | Path                  | Responsibility                                      |
 | --------------------- | --------------------------------------------------- |
 | `main.go`             | Embeds assets, registers endpoints, starts server.  |
-| `src/interface.go`    | Public types, methods, permissions, endpoint registry. |
-| `src/main.go`         | Server startup and route registration.              |
-| `src/middleware/`     | HTML page wrapper and response headers.             |
-| `src/elements/`       | One helper per HTML tag.                            |
-| `src/docs/`           | Markdown loading and the `/docs` pages.             |
+| `lib/interface.go`    | Public types, methods, permissions, endpoint registry. |
+| `lib/main.go`         | Server startup and route registration.              |
+| `lib/middleware/`     | HTML page wrapper and response headers.             |
+| `lib/elements/`       | One helper per HTML tag.                            |
+| `lib/docs/`           | Markdown loading and the `/docs` pages.             |
+| `lib/dev/`            | Development server with hot reload.                 |
+| `src/api/`            | Example API endpoint.                               |
+| `src/web/`            | Example web endpoint.                               |
 | `static/styles.css`   | Site stylesheet, embedded at build time.            |
 | `docs/`               | User guides (Markdown source for `/docs`).          |
 | `contrib/`            | Contributor notes (not published on the site).      |

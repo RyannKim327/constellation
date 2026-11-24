@@ -5,14 +5,17 @@ endpoints, return HTML from a handler, and the framework wraps it in a page.
 
 It requires Go 1.27 or newer and has no third-party dependencies.
 
+Developed by Ryann Kim Sesgundo with Opencode Big Pickle.
+
 ## Project layout
 
 ```text
 main.go                  application entry point and embedded static files
-src/interface.go         Endpoint, WebComponent, and constants
-src/main.go              server startup
-src/middleware/http.go   HTML page wrapper
-src/elements/            HTML element helpers
+lib/interface.go         Endpoint, WebComponent, and constants
+lib/main.go              server startup
+lib/middleware/http.go   HTML page wrapper
+lib/elements/            HTML element helpers
+lib/dev/                 development server with hot reload
 static/styles.css        site stylesheet
 docs/                    Markdown documentation
 ```
@@ -22,7 +25,10 @@ docs/                    Markdown documentation
 ```go
 package main
 
-import constellation "constellation/src"
+import (
+    constellation "constellation/lib"
+    "constellation/lib/elements"
+)
 
 func main() {
     constellation.AddEndpoint(constellation.Endpoint{
@@ -32,7 +38,17 @@ func main() {
         Title:      "Home",
         Handler: constellation.HandlerSetup{
             Web: func(r *constellation.Request) string {
-                return "<h1>Hello, Constellation</h1>"
+                return elements.Main(constellation.WebComponent{
+                    Class: "page-shell",
+                    Children: []any{
+                        elements.H1(constellation.WebComponent{
+                            Text: "Hello, Constellation",
+                        }),
+                        elements.P(constellation.WebComponent{
+                            Text: "Built with Go.",
+                        }),
+                    },
+                })
             },
         },
     })
@@ -41,7 +57,18 @@ func main() {
 }
 ```
 
-Run it with `go run .` and open `http://localhost:8000`.
+The `elements` helpers return HTML strings, so a `Web` handler can return one
+directly. See [Elements](elements.md) for the available helpers.
+
+Run it with `go run .` and open `http://localhost:8000`. For development with
+automatic rebuilds and browser refresh, use the watcher instead:
+
+```bash
+go run ./lib/dev
+```
+
+It watches `.go`, `.css`, and `.md` files and serves the app on the same port.
+Set `PORT` to use a different port.
 
 ## Adding styles
 

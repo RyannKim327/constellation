@@ -1,8 +1,8 @@
-package sample_api
+package api
 
 import (
-	constellation "constellation/src"
-	"constellation/src/middleware"
+	constellation "constellation/lib"
+	"constellation/lib/middleware"
 )
 
 var SampleApi = constellation.Endpoint{

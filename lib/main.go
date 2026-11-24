@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"constellation/src/middleware"
+	"constellation/lib/middleware"
 )
 
 func StartServer(css []byte) {

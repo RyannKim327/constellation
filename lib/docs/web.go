@@ -5,8 +5,8 @@ import (
 	"sort"
 	"strings"
 
-	constellation "constellation/src"
-	"constellation/src/elements"
+	constellation "constellation/lib"
+	"constellation/lib/elements"
 )
 
 type document struct {

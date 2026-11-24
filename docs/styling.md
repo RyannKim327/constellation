@@ -47,8 +47,8 @@ elements.Div(constellation.WebComponent{
 ```
 
 Use `Class` for layout and spacing. Edit `static/styles.css` for shared
-component styles such as `.page-shell` and `.markdown`, then restart the server
-to apply changes.
+component styles such as `.page-shell` and `.markdown`. Restart the server, or
+run `go run ./lib/dev` to reload automatically.
 
 ## Existing classes
 
@@ -65,4 +65,4 @@ to apply changes.
 | `page-footer`   | Footer row.                               |
 
 Colors are defined as CSS variables in `:root`. Edit `styles.css` and restart
-the server to apply changes.
+the server, or use `go run ./lib/dev` for automatic reloads.

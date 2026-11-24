@@ -6,8 +6,12 @@ Constellation is a small web framework for Go built with the standard library.
 You register endpoints, return HTML from a handler, and the framework wraps the
 result in a complete page. It has no third-party Go dependencies.
 
+Developed by Ryann Kim Sesgundo with Opencode Big Pickle.
+
+Current version: v1.1.0.
+
 - Declarative routes with `constellation.Endpoint`
-- HTML helpers in `src/elements` for every common tag
+- HTML helpers in `lib/elements` for every common tag
 - Server-rendered pages with Tailwind CSS utilities
 - Markdown documentation embedded into the binary and served at `/docs`
 
@@ -22,6 +26,19 @@ go run .
 ```
 
 Open <http://localhost:8000>.
+
+## Hot reload
+
+For development with hot reload, run the watcher instead of `go run .`:
+
+```bash
+go run ./lib/dev
+```
+
+It rebuilds and restarts the server whenever a `.go`, `.css`, or `.md` file
+changes, then refreshes open browser tabs automatically. Set `PORT` to use a
+different port. Build errors are reported in the terminal and leave the
+previous server running.
 
 ## Navigation
 
@@ -48,17 +65,21 @@ Open <http://localhost:8000>.
 - [Architecture](contrib/architecture.md)
 - [Documentation workflow](contrib/documentation.md)
 - [Code conventions](contrib/conventions.md)
+- [Changelog](CHANGELOG.md)
 
 ## Project layout
 
 ```text
-main.go                  entry point, embedded assets, example page
+main.go                  entry point, embedded assets, example endpoints
 go.mod
-src/interface.go         Endpoint, WebComponent, methods, permissions
-src/main.go              server startup and route registration
-src/middleware/http.go   HTML page wrapper and response headers
-src/elements/            HTML element helpers
-src/docs/                Markdown loading and /docs pages
+lib/interface.go         Endpoint, WebComponent, methods, permissions
+lib/main.go              server startup and route registration
+lib/middleware/http.go   HTML page wrapper and response headers
+lib/elements/            HTML element helpers
+lib/docs/                Markdown loading and /docs pages
+lib/dev/                 development server with hot reload
+src/api/                 example API endpoint
+src/web/                 example web endpoint
 static/styles.css        site stylesheet
 docs/                    user guides (published at /docs)
 contrib/                 contributor notes (repository only)
@@ -69,7 +90,7 @@ contrib/                 contributor notes (repository only)
 ```go
 package main
 
-import constellation "constellation/src"
+import constellation "constellation/lib"
 
 func main() {
     constellation.AddEndpoint(constellation.Endpoint{

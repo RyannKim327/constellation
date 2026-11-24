@@ -14,12 +14,12 @@ There are two Markdown trees:
    `[Styling](styling.md)`. They are rewritten to `/docs/styling`.
 5. Rebuild and restart. The docs are embedded at build time.
 
-No code generation step is needed. `docs.Register` in `src/docs/web.go` creates
+No code generation step is needed. `docs.Register` in `lib/docs/web.go` creates
 the endpoints from the embedded files.
 
 ## Supported Markdown
 
-The renderer in `src/docs/markdown.go` supports:
+The renderer in `lib/docs/markdown.go` supports:
 
 - headings `#` through `######`
 - paragraphs and horizontal rules

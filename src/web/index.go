@@ -1,8 +1,8 @@
-package sample_web
+package web
 
 import (
-	constellation "constellation/src"
-	"constellation/src/elements"
+	constellation "constellation/lib"
+	"constellation/lib/elements"
 )
 
 var Index = constellation.Endpoint{
@@ -61,7 +61,7 @@ func handler(r *constellation.Request) string {
 						Children: []any{
 							elements.Span(constellation.WebComponent{
 								Class: "eyebrow block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-orange-400",
-								Text:  "Built with Go and Tailwind CSS",
+								Text:  "Built with Go and Tailwind CSS.",
 							}),
 							elements.H1(constellation.WebComponent{
 								Class: "hero-title my-5 mb-6 text-[clamp(2.75rem,7vw,5.5rem)] font-bold leading-[0.98] tracking-[-0.045em]",

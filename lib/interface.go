@@ -3,7 +3,7 @@ package constellation
 import (
 	"net/http"
 
-	"constellation/src/middleware"
+	"constellation/lib/middleware"
 )
 
 type (

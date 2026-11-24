@@ -1,6 +1,6 @@
 package elements
 
-import constellation "constellation/src"
+import constellation "constellation/lib"
 
 func Button(element constellation.WebComponent) string {
 	return render("button", element)
