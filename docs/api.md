@@ -163,7 +163,7 @@ curl -i -X POST -H 'Content-Type: application/json' \
 
 ## Current limits
 
-Permission values are metadata and are not enforced by the server. There are no built-in helpers for authentication, CORS, or API versioning; use the standard `net/http` APIs inside a handler for those. `SendApi` only encodes JSON, so headers and status codes remain your responsibility.
+Permission values are enforced before a handler runs. `Unauthenticated` is public, while `Authenticated` and `Authorized` depend on the checks configured in `src/middleware/access-controller.go` and return `403 Forbidden` by default. There are no built-in helpers for authentication, CORS, or API versioning; use the standard `net/http` APIs inside a handler for those. `SendApi` only encodes JSON, so headers and status codes remain your responsibility.
 
 ## See also
 

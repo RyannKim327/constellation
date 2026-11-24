@@ -21,7 +21,8 @@ Markdown.
 ## Endpoints
 
 Register endpoints in `main.go` before `StartServer`. Set `Title` so the page
-has a useful title. Use `Unauthenticated` until permissions are enforced.
+has a useful title. Use `Unauthenticated` for public endpoints; private endpoints
+need checks configured in `src/middleware/access-controller.go`.
 
 ## Style and checks
 

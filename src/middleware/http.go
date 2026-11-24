@@ -32,16 +32,16 @@ func WebParser(w http.ResponseWriter, title string, html string) (int, error) {
 		  <!-- A framework developed with Go language -->
   		  <!-- Developed by Ryann Kim Sesgundo -->
   		  <head>
-     		  <meta charset="UTF-8">
-     		  <meta name="viewport" content="width=device-width, initial-scale=1">
-     		  <meta name="color-scheme" content="dark">
-     		  <title>%s</title>
-     		  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    		  <meta charset="UTF-8">
+    		  <meta name="viewport" content="width=device-width, initial-scale=1">
+    		  <meta name="color-scheme" content="dark">
+    		  <title>%s</title>
+    		  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
          <style>%s</style>
-   		  </head>
-   		  <body class="min-h-screen bg-[#0b0b0f] text-slate-50 antialiased">
-     		  <main class="min-h-screen">%s</main>
-   		  </body>
+  		  </head>
+  		  <body class="min-h-screen bg-[#0b0b0f] text-slate-50 antialiased">
+    		  <main class="min-h-screen">%s</main>
+  		  </body>
 		</html>
 		`, title, stylesheet, html)
 	return w.Write([]byte(_html))

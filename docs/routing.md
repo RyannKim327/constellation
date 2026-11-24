@@ -69,9 +69,11 @@ constellation.AddEndpoint(constellation.Endpoint{
 
 ## Defaults and permissions
 
-`AddEndpoint` fills in `/` for an empty path and `GET` for an empty method.
-Permission values (`Unauthenticated`, `Authenticated`, and `Authorized`) are
-metadata for now; they are not enforced by the server yet.
+`AddEndpoint` fills in `/` for an empty path, `GET` for an empty method, and
+`Unauthenticated` for an empty permission. Permission values are checked before
+handlers run: public endpoints are always allowed, while `Authenticated` and
+`Authorized` endpoints depend on `middleware.AuthenticatedCheck` and
+`middleware.AuthorizedCheck` and return `403 Forbidden` when denied.
 
 ## Reading request data
 

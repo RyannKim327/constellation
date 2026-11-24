@@ -1,12 +1,16 @@
 package constellation
 
-import "net/http"
+import (
+	"net/http"
+
+	"constellation/src/middleware"
+)
 
 type (
 	HandlerWeb     func(r *Request) string
 	HandlerApi     func(r *Request, w Response)
 	MethodType     string
-	PermissionType string
+	PermissionType = middleware.Permission
 	Request        http.Request
 	Response       http.ResponseWriter
 	APIResponse    map[string]any
@@ -26,9 +30,9 @@ const (
 )
 
 const (
-	Unauthenticated PermissionType = "__public__"
-	Authenticated   PermissionType = "__private__"
-	Authorized      PermissionType = "__protected__"
+	Unauthenticated = middleware.Unauthenticated
+	Authenticated   = middleware.Authenticated
+	Authorized      = middleware.Authorized
 )
 
 type WebComponent struct {
@@ -55,6 +59,10 @@ func AddEndpoint(endpoint Endpoint) {
 
 	if endpoint.Method == "" {
 		endpoint.Method = GET
+	}
+
+	if endpoint.Permission == "" {
+		endpoint.Permission = Unauthenticated
 	}
 
 	Endpoints = append(Endpoints, endpoint)

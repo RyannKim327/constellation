@@ -2,7 +2,9 @@ package constellation
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 
 	"constellation/src/middleware"
 )
@@ -12,6 +14,11 @@ func StartServer(css []byte) {
 
 	for _, endpoint := range Endpoints {
 		serve.HandleFunc(fmt.Sprintf("%s %s", endpoint.Method, endpoint.Path), func(w http.ResponseWriter, r *http.Request) {
+			if !middleware.AccessController(endpoint.Permission, r) {
+				http.Error(w, http.StatusText(http.StatusForbidden), http.StatusForbidden)
+				return
+			}
+
 			request := (*Request)(r)
 
 			switch {
@@ -29,5 +36,10 @@ func StartServer(css []byte) {
 
 	middleware.SetStylesheet(string(css))
 
-	http.ListenAndServe(":8000", serve)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000"
+	}
+
+	log.Fatal(http.ListenAndServe(":"+port, serve))
 }
