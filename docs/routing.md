@@ -45,7 +45,8 @@ constellation.AddEndpoint(constellation.Endpoint{
 ```
 
 The server registers each endpoint as an exact `METHOD path` pattern, for
-example `GET /hello`. `POST`, `PUT`, `PATCH`, and `DELETE` are also available.
+example `GET /hello`. The root path is registered as `GET /{$}` so other paths
+reach the 404 handler. `POST`, `PUT`, `PATCH`, and `DELETE` are also available.
 See the [API guide](api.md) for a full walkthrough of JSON endpoints.
 
 ## Web and Api handlers
@@ -67,13 +68,32 @@ constellation.AddEndpoint(constellation.Endpoint{
 })
 ```
 
-## Defaults and permissions
+## Defaults, permissions, and error pages
 
 `AddEndpoint` fills in `/` for an empty path, `GET` for an empty method, and
 `Unauthenticated` for an empty permission. Permission values are checked before
 handlers run: public endpoints are always allowed, while `Authenticated` and
 `Authorized` endpoints depend on `middleware.AuthenticatedCheck` and
 `middleware.AuthorizedCheck` and return `403 Forbidden` when denied.
+
+Unmatched paths return `404 Not Found`. Both status codes render an HTML body
+wrapped by the page parser. Register the built-in pages, or your own
+`HandlerWeb` functions, before starting the server:
+
+```go
+import (
+    constellation "constellation/lib"
+    "constellation/lib/status"
+)
+
+constellation.SetErrorPages(constellation.ErrorPages{
+    NotFound:  status.Status404,
+    Forbidden: status.Status403,
+})
+```
+
+`NotFound` receives unmatched requests and `Forbidden` receives permission
+denials. Each handler gets the current request and returns the HTML body.
 
 ## Reading request data
 

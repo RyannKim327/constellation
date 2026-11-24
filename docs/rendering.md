@@ -42,7 +42,13 @@ these headers:
 
 It outputs the document type, `lang="en"`, the page title, the embedded CSS,
 and the handler body inside a `<main>` element. An empty title becomes
-`Constellation`.
+`My Constellation App`.
+
+## Status codes
+
+`middleware.WebPage(w, status, title, html)` writes the same document with a
+custom HTTP status code. `WebParser` calls it with `http.StatusOK`; the server
+uses `WebPage` for 404 and 403 responses.
 
 ## Raw HTML
 

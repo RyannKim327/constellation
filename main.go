@@ -5,6 +5,7 @@ import (
 
 	constellation "constellation/lib"
 	"constellation/lib/docs"
+	"constellation/lib/status"
 	api "constellation/src/api"
 	web "constellation/src/web"
 )
@@ -21,6 +22,11 @@ var DocsFS embed.FS
 
 func main() {
 	docs.Register(DocsFS)
+
+	constellation.SetErrorPages(constellation.ErrorPages{
+		NotFound:  status.Status404,
+		Forbidden: status.Status403,
+	})
 
 	constellation.AddEndpoint(web.Index)
 	constellation.AddEndpoint(api.SampleApi)

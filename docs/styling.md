@@ -25,14 +25,16 @@ func main() {
 ```
 
 `StartServer` calls `middleware.SetStylesheet`, and `middleware.WebParser`
-writes that CSS in a plain `<style>` block in every page. The custom classes
-work even if the Tailwind CDN is unavailable. Only `styles.css` is injected
+writes that CSS in a `<style type="text/tailwindcss">` block in every page, so
+the stylesheet can use Tailwind features. Only `styles.css` is injected
 automatically; other files under `static/` are embedded but are not served yet.
 
 ## Tailwind CSS
 
-The page wrapper loads `https://cdn.tailwindcss.com?plugins=typography`. Add any
-Tailwind utility class through the `Class` field of a `WebComponent`:
+The page wrapper loads the Tailwind CSS v4 browser build from
+`https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4`. The browser build is meant
+for development; compile a stylesheet for production. Add any Tailwind utility
+class through the `Class` field of a `WebComponent`:
 
 ```go
 elements.Div(constellation.WebComponent{
@@ -45,6 +47,19 @@ elements.Div(constellation.WebComponent{
     },
 })
 ```
+
+Define design tokens with `@theme` in `static/styles.css`:
+
+```css
+@theme {
+  --color-primary: #fb923c;
+}
+```
+
+This creates utilities such as `bg-primary`, `text-primary`, and
+`border-primary`, and keeps `var(--color-primary)` available in custom CSS.
+Add more `--color-*`, `--font-*`, or `--breakpoint-*` variables to extend the
+theme.
 
 Use `Class` for layout and spacing. Edit `static/styles.css` for shared
 component styles such as `.page-shell` and `.markdown`. Restart the server, or
@@ -63,6 +78,10 @@ run `go run ./lib/dev` to reload automatically.
 | `docs-sidebar`  | Sticky list of documents.                 |
 | `markdown`      | Styles headings, code, lists, and tables. |
 | `page-footer`   | Footer row.                               |
+| `status-page`   | Centered layout for 404 and 403 pages.    |
+| `status-code`   | Large gradient status number.             |
+| `status-actions`| Row of status-page buttons.               |
+| `status-path`   | Requested path shown on status pages.     |
 
-Colors are defined as CSS variables in `:root`. Edit `styles.css` and restart
+Colors are defined as theme variables in `@theme`. Edit `styles.css` and restart
 the server, or use `go run ./lib/dev` for automatic reloads.

@@ -21,6 +21,11 @@ type HandlerSetup struct {
 	Api HandlerApi
 }
 
+type ErrorPages struct {
+	NotFound  HandlerWeb
+	Forbidden HandlerWeb
+}
+
 const (
 	GET    MethodType = "GET"
 	POST   MethodType = "POST"
@@ -50,7 +55,14 @@ type Endpoint struct {
 	Title      string
 }
 
-var Endpoints []Endpoint
+var (
+	Endpoints  []Endpoint
+	errorPages ErrorPages
+)
+
+func SetErrorPages(pages ErrorPages) {
+	errorPages = pages
+}
 
 func AddEndpoint(endpoint Endpoint) {
 	if endpoint.Path == "" {

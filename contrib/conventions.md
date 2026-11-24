@@ -6,6 +6,7 @@
   `elements` and `docs` to avoid dependency cycles.
 - `constellation/lib/elements` holds thin HTML tag helpers.
 - `constellation/lib/middleware` holds response helpers.
+- `constellation/lib/status` holds the built-in 404 and 403 page handlers. Register them from `main.go` with `SetErrorPages` so `lib` stays free of `elements` imports.
 - `constellation/lib/docs` holds the documentation routes and renderer.
 
 ## Elements

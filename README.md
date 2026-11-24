@@ -116,9 +116,9 @@ func main() {
 ## Styling
 
 `static/styles.css` is embedded with `embed.FS` and passed to `StartServer`.
-The page wrapper also loads Tailwind CSS from its CDN, so utility classes can be
-set through a component's `Class` field. See [the styling guide](docs/styling.md)
-for the full setup.
+The page wrapper loads the Tailwind CSS v4 browser build, so utility classes can
+be set through a component's `Class` field and theme tokens can be defined with
+`@theme`. See [the styling guide](docs/styling.md) for the full setup.
 
 ## Development checks
 
